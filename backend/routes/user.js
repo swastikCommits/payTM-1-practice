@@ -47,4 +47,25 @@ router.post('/signup',async function(req, res){
 })
 
 
+const signInBody=zod.object({
+    username: zod.string().email(),
+    password: zod.string()
+})
+router.get('/signin', async (req, res) => {
+    const user= await User.findOne({
+        username: req.body.username,
+        password: req.body.password
+    })
+    if(user){
+        const token=jwt.sign({userId: user.id}, JWT_SECRET);
+        res.json({
+            tokekn
+        })
+    }
+
+    res.status(411).json({
+        msg: "Error while logging in"
+    })
+})
+
 module.exports = router;
